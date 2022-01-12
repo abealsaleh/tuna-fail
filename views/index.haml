@@ -1,0 +1,10 @@
+.welcome Tunable Failures
+.dashboard
+  .create
+    %form{action: '/endpoint/new', method: 'POST'}
+      %input{type: "submit", value: "create"}
+  .manage
+    - endpoints.each do |k,v|
+      %a{ href: "/endpoints/#{k}/manage", title: k }= k
+      .endpoint
+        .value message body: #{v[:mbody]} | return code: #{v[:rc]} | flap? #{v[:flap].to_s}

@@ -1,0 +1,20 @@
+#content
+  %h2= name
+  .content
+    %ul{id: "nav"}
+      %li
+        %a{href: "/", title: "Dashboard" } Dashboard
+  - if defined? @params
+    .params= @params
+  .endpoint
+    target url: 
+    %a{href: target, title: target }= target
+    .value
+      %form{action: request.path_info, method: "POST"}
+        %label{for: "mbody"}Message Body
+        %textarea{id: "mbody", name: "mbody"}= values[:mbody]
+        %label{for: "rc"}Return Code
+        %input{type: "text", id: "rc", name: "rc", value: values[:rc].to_s}
+        %label{for: "flap"}Flapping?
+        %input{type: "checkbox", id: "flap", name: "flap", checked: values[:flap]}
+        %input{type: "submit", value: "update"}

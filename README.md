@@ -20,3 +20,10 @@ Thus, a lightweight ruby service seems the right way to go, which immediately br
   * Allows configuring which behaviors the endpoint will return
  * XXX/target
   * The actual target you point your monitoring agent at
+
+
+# Requirements
+## Development
+* Written against ruby 3.1.0, but currently unsure minimum requirements
+* Bundler
+* docker
