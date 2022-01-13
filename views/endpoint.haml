@@ -4,8 +4,6 @@
     %ul{id: "nav"}
       %li
         %a{href: "/", title: "Dashboard" } Dashboard
-  - if defined? @params
-    .params= @params
   .endpoint
     target url: 
     %a{href: target, title: target }= target
@@ -15,6 +13,6 @@
         %textarea{id: "mbody", name: "mbody"}= values[:mbody]
         %label{for: "rc"}Return Code
         %input{type: "text", id: "rc", name: "rc", value: values[:rc].to_s}
-        %label{for: "flap"}Flapping?
-        %input{type: "checkbox", id: "flap", name: "flap", checked: values[:flap]}
+        %label{for: "flap"}Flap Percent
+        %input{type: "text", id: "flap", name: "flap", value: values[:flap].to_s}%
         %input{type: "submit", value: "update"}

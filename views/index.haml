@@ -5,9 +5,10 @@
       %input{type: "submit", value: "create"}
   .manage
     - endpoints.each do |k,v|
+      %h2.endpoint_name= k
       %em.label manage: 
       %a{ href: "/endpoints/#{k}/manage", title: k }= k
       %em.label target:
       %a{ href: url_for("/endpoints/#{k}/target", :full), title: "#{k} monitor target" }= url_for("/endpoints/#{k}/target", :full)
       .endpoint
-        .value message body: #{v[:mbody]} | return code: #{v[:rc]} | flap? #{v[:flap].to_s}
+        .value message body: #{v[:mbody]} | return code: #{v[:rc]} | flap percent: #{v[:flap].to_s}%

@@ -5,13 +5,19 @@ require 'securerandom'
 
 require 'sinatra/reloader' if development?
 
+# set :bind and :port settings from ENV vars
+# TUNA_FAIL_BIND and TUNA_FAIL_PORT
+['bind', 'port'].each do |config|
+  env_key = 'TUNA_FAIL_' + config.upcase
+  default = settings.send(config)
+  set config, ENV[env_key] || default
+end
+
 set :haml, :format => :html5
 
 endpoints = Hash.new do |hash, key| 
-  hash[key]= {rc: 200, mbody: 'Success', flap: false}
+  hash[key]= {rc: 200, mbody: 'Success', flap: 0}
 end
-
-endpoints[:foo] # testing data
 
 get '/' do
   haml :index, :locals => { :endpoints => endpoints }
@@ -35,23 +41,18 @@ post '/endpoints/:e/manage' do
   key = e.to_sym
   endpoints[key][:rc] = params['rc'].to_i
   endpoints[key][:mbody] = params['mbody']
-  if params["flap"] == "on"
-    endpoints[key][:flap] = true
-  else
-    endpoints[key][:flap] = false
-  end
+  pct = params['flap'].to_i < 0 ? 0 : params['flap'].to_i
+  pct = params['flap'].to_i > 100 ? 100 : pct
+  endpoints[key][:flap] = pct
   redirect url_for "/endpoints/#{e}/manage"
 end
 
-def flap
-  rand < 0.5 ? [500, "flapping"] : false
+def flap(pct)
+  pct /= 100.0
+  rand <= pct ? [500, "flapping"] : false
 end
 
 get '/endpoints/:e/target' do
-  e = params['e'].to_sym
-  if endpoints[e][:flap]
-    flap || endpoints[e].values_at(:rc, :mbody)
-  else
-    endpoints[e].values_at(:rc, :mbody)
-  end
+  e = endpoints[params['e'].to_sym]
+  flap(e[:flap]) || e.values_at(:rc, :mbody)
 end
