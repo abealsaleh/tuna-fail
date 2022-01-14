@@ -19,7 +19,7 @@ Thus, a lightweight ruby service seems the right way to go, which immediately br
  * XXX/manage
    * Allows configuring which behaviors the endpoint will return
  * XXX/target
-  * The actual target you point your monitoring agent at
+   * The actual target you point your monitoring agent at
 
 
 # Requirements
